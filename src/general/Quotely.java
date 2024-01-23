@@ -50,7 +50,7 @@ public class Quotely {
 			return "en";
 		} else if (language.equals("Russian")){
 			return "ru";
-		
+		}
 		throw new IllegalArgumentException("Only English or Russian are acceptable input languages");
 	}
 	
