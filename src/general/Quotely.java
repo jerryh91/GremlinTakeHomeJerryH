@@ -17,32 +17,36 @@ public class Quotely {
 	public final static String quoteUrl = "http://api.forismatic.com/api/1.0/?method=getQuote";
 	
 	public void quotelyMethod() {
-		//TODO: Add continuous checking input with while (true)?
-//		while (true) {
-		try (Scanner scanner = new Scanner(System.in)) {
-			String language = scanner.nextLine();
-			 
-			 if (language == null || language.trim().equals("")) {
-				 language = "English";
-			 }
-			 
-			 final String processLanguage  = language.trim();
-			 
-			 if (!(processLanguage.equals("English") || processLanguage.equals("Russian")) ) {
-				 throw new IllegalArgumentException("Only English or Russian are acceptable input languages");
-			 }
-			final String response = this.fetchQuote(ResponseFormat.json, this.getLanguageParamValue(processLanguage));
-			final JSONParser jsonParser = new JSONParser();
+		try (Scanner input = new Scanner(System.in)) {
+			String command = "";
+			
+			while (input.hasNextLine()) {
+				command = input.nextLine();
+				 
+				 if (command == null || command.trim().equals("")) {
+					 command = "English";
+				 }
+				 if (command.equals("exit")) {
+						break;
+				 }
+				 final String processLanguage  = command.trim();
+				 
+				 if (!(processLanguage.equals("English") || processLanguage.equals("Russian")) ) {
+					 throw new IllegalArgumentException("Only English or Russian are acceptable input languages");
+				 }
+				final String response = this.fetchQuote(ResponseFormat.json, this.getLanguageParamValue(processLanguage));
+				final JSONParser jsonParser = new JSONParser();
 
-			try {
-				JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
-				this.displayResult(jsonObject);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+				try {
+					JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
+					this.displayResult(jsonObject);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}			
+		} finally {
+			System.out.println("Program exited");
 		}
-//		}
-		
 	}
 	
 	private String getLanguageParamValue(String language) {
