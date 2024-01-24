@@ -81,7 +81,7 @@ public class Quotely {
 	}
 	
 	
-	private void displayResult(JSONObject jsonObject) {
+	private String displayResult(JSONObject jsonObject) {
 		System.out.println("Quote: " + jsonObject.get("quoteText"));
 		System.out.println("Author: " + jsonObject.get("quoteAuthor"));
 		System.out.println("");
