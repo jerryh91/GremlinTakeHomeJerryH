@@ -15,7 +15,7 @@ public class Quotely {
 
 	public final static String quoteUrl = "http://api.forismatic.com/api/1.0/?method=getQuote";
 	
-	public String quotelyMethod() throws ParseException, IOException {
+	public String getQuote() throws ParseException, IOException {
 		try (Scanner input = new Scanner(System.in)) {
 			String command = input.nextLine();
 			 

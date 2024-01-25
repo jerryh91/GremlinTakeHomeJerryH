@@ -8,6 +8,6 @@ public class TesterClass {
 
 	public static void main(String[] args) throws ParseException, IOException {
 			Quotely q = new Quotely();
-			q.quotelyMethod();
+			q.getQuote();
 	}
 }

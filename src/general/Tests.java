@@ -18,32 +18,32 @@ class Tests {
 	}
 	
 	@Test
-	public void testQuotelyMethodEnglish() throws ParseException, IOException {
+	public void testGetQuoteEnglish() throws ParseException, IOException {
 	    System.setIn(new ByteArrayInputStream("English".getBytes()));
-	    String result = q.quotelyMethod();
+	    String result = q.getQuote();
 	    assertNotNull(result);
 	    assertTrue(result.matches("^Quote(.*)\nAuthor(.*)$"));
 	}
 	
 	@Test
-	public void testQuotelyMethodRussian() throws ParseException, IOException {
+	public void testGetQuoteRussian() throws ParseException, IOException {
 	    System.setIn(new ByteArrayInputStream("Russian".getBytes()));
-	    String result = q.quotelyMethod();
+	    String result = q.getQuote();
 	    assertNotNull(result);
 	    assertTrue(result.matches("^Quote(.*)\nAuthor(.*)$"));
 	}
 
 	@Test
-	public void testQuotelyMethodDefault() throws ParseException, IOException {
+	public void testGetQuoteDefault() throws ParseException, IOException {
 	    System.setIn(new ByteArrayInputStream("\n".getBytes()));
-	    String result = q.quotelyMethod();
+	    String result = q.getQuote();
 	    assertNotNull(result);
 	    assertTrue(result.matches("^Quote(.*)\nAuthor(.*)$"));
 	}
 	
 	@Test
-	public void testQuotelyThrowIllegalArgument() {
+	public void testGetQuoteThrowIllegalArgument() {
 	    System.setIn(new ByteArrayInputStream("Chinese".getBytes()));
-	    assertThrows(IllegalArgumentException.class, ()-> q.quotelyMethod());
+	    assertThrows(IllegalArgumentException.class, ()-> q.getQuote());
 	}
 }
