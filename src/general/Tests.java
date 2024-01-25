@@ -1,10 +1,10 @@
 package general;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
-import java.util.Scanner;
+import java.io.IOException;
 
+import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,11 +16,34 @@ class Tests {
 	public void setup() {
 		q = new Quotely();
 	}
+	
 	@Test
-	public void testBarCorrect() {
+	public void testQuotelyMethodEnglish() throws ParseException, IOException, InterruptedException {
 	    System.setIn(new ByteArrayInputStream("English".getBytes()));
-	    Scanner scanner = new Scanner(System.in);
-	    q.quotelyMethod();
+	    String result = q.quotelyMethod();
+	    assertNotNull(result);
+	    assertTrue(result.matches("^Quote(.*)\nAuthor(.*)$"));
+	}
+	
+	@Test
+	public void testQuotelyMethodRussian() throws ParseException, IOException, InterruptedException {
+	    System.setIn(new ByteArrayInputStream("Russian".getBytes()));
+	    String result = q.quotelyMethod();
+	    assertNotNull(result);
+	    assertTrue(result.matches("^Quote(.*)\nAuthor(.*)$"));
 	}
 
+	@Test
+	public void testQuotelyMethodDefault() throws ParseException, IOException, InterruptedException {
+	    System.setIn(new ByteArrayInputStream("\n".getBytes()));
+	    String result = q.quotelyMethod();
+	    assertNotNull(result);
+	    assertTrue(result.matches("^Quote(.*)\nAuthor(.*)$"));
+	}
+	
+	@Test
+	public void testQuotelyThrowIllegalArgument() {
+	    System.setIn(new ByteArrayInputStream("Chinese".getBytes()));
+	    assertThrows(IllegalArgumentException.class, ()-> q.quotelyMethod());
+	}
 }

@@ -1,7 +1,6 @@
 package general;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -16,36 +15,24 @@ public class Quotely {
 
 	public final static String quoteUrl = "http://api.forismatic.com/api/1.0/?method=getQuote";
 	
-	public void quotelyMethod() {
+	public String quotelyMethod() throws ParseException, IOException, InterruptedException {
 		try (Scanner input = new Scanner(System.in)) {
-			String command = "";
-			
-			while (input.hasNextLine()) {
-				command = input.nextLine();
-				 
-				 if (command == null || command.trim().equals("")) {
-					 command = "English";
-				 }
-				 if (command.equals("exit")) {
-						break;
-				 }
-				 final String processLanguage  = command.trim();
-				 
-				 if (!(processLanguage.equals("English") || processLanguage.equals("Russian")) ) {
-					 throw new IllegalArgumentException("Only English or Russian are acceptable input languages");
-				 }
-				final String response = this.fetchQuote(ResponseFormat.json, this.getLanguageParamValue(processLanguage));
-				final JSONParser jsonParser = new JSONParser();
+			String command = input.nextLine();
+			 
+			 if (command == null || command.trim().equals("")) {
+				 command = "English";
+			 }
+			 final String processLanguage  = command.trim();
+			 
+			 if (!(processLanguage.equals("English") || processLanguage.equals("Russian")) ) {
+				 throw new IllegalArgumentException("Only English or Russian are acceptable input languages");
+			 }
+			final String response = this.fetchQuote(ResponseFormat.json, this.getLanguageParamValue(processLanguage));
+			final JSONParser jsonParser = new JSONParser();
 
-				try {
-					JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
-					this.displayResult(jsonObject);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-			}			
-		} finally {
-			System.out.println("Program exited");
+		
+			JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
+			return this.displayResult(jsonObject);
 		}
 	}
 	
@@ -58,7 +45,7 @@ public class Quotely {
 		throw new IllegalArgumentException("Only English or Russian are acceptable input languages");
 	}
 	
-	private String fetchQuote(ResponseFormat format, String languageParam) {
+	private String fetchQuote(ResponseFormat format, String languageParam) throws IOException, InterruptedException {
 	
 		final String fullQuoteUrl = quoteUrl + "&format=" + format +"&lang=" + languageParam;
 		
@@ -69,21 +56,19 @@ public class Quotely {
 			response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			throw new RuntimeException();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			throw new RuntimeException();
+			throw e;
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RuntimeException();
+			//Add retries in production code if SocketTimeoutException
+			throw e;
 		}
 		return response.body().toString();
 	}
 	
 	
 	private String displayResult(JSONObject jsonObject) {
-		System.out.println("Quote: " + jsonObject.get("quoteText"));
-		System.out.println("Author: " + jsonObject.get("quoteAuthor"));
-		System.out.println("");
+		String result = "Quote: " + jsonObject.get("quoteText") +"\nAuthor: " + jsonObject.get("quoteAuthor");
+		System.out.println(result);
+		return result;
 	}
 }
