@@ -1,5 +1,6 @@
 To import project: 
 1. git clone git@github.com:jerryh91/GremlinTakeHomeJerryH.git
+
 In Eclipse IDE: 
 1. File > Import > General: Existing Projects Into Workspace > Finish
 
