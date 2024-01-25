@@ -11,6 +11,8 @@ In Eclipse IDE:
 
 Run Project: 
 1. Right click TesterClass.java and Run 
+2. Enter in Console "English" or "Russian" or no text and click enter
+3. See quote displayed
 
 Run Tests:
 1. Right click Testers.java and Run As jUnit Tests

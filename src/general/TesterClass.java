@@ -10,5 +10,4 @@ public class TesterClass {
 			Quotely q = new Quotely();
 			q.quotelyMethod();
 	}
-
 }
