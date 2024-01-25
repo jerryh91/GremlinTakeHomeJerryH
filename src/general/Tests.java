@@ -18,7 +18,7 @@ class Tests {
 	}
 	
 	@Test
-	public void testQuotelyMethodEnglish() throws ParseException, IOException, InterruptedException {
+	public void testQuotelyMethodEnglish() throws ParseException, IOException {
 	    System.setIn(new ByteArrayInputStream("English".getBytes()));
 	    String result = q.quotelyMethod();
 	    assertNotNull(result);
@@ -26,7 +26,7 @@ class Tests {
 	}
 	
 	@Test
-	public void testQuotelyMethodRussian() throws ParseException, IOException, InterruptedException {
+	public void testQuotelyMethodRussian() throws ParseException, IOException {
 	    System.setIn(new ByteArrayInputStream("Russian".getBytes()));
 	    String result = q.quotelyMethod();
 	    assertNotNull(result);
@@ -34,7 +34,7 @@ class Tests {
 	}
 
 	@Test
-	public void testQuotelyMethodDefault() throws ParseException, IOException, InterruptedException {
+	public void testQuotelyMethodDefault() throws ParseException, IOException {
 	    System.setIn(new ByteArrayInputStream("\n".getBytes()));
 	    String result = q.quotelyMethod();
 	    assertNotNull(result);

@@ -15,7 +15,7 @@ public class Quotely {
 
 	public final static String quoteUrl = "http://api.forismatic.com/api/1.0/?method=getQuote";
 	
-	public String quotelyMethod() throws ParseException, IOException, InterruptedException {
+	public String quotelyMethod() throws ParseException, IOException {
 		try (Scanner input = new Scanner(System.in)) {
 			String command = input.nextLine();
 			 
@@ -45,7 +45,7 @@ public class Quotely {
 		throw new IllegalArgumentException("Only English or Russian are acceptable input languages");
 	}
 	
-	private String fetchQuote(ResponseFormat format, String languageParam) throws IOException, InterruptedException {
+	private String fetchQuote(ResponseFormat format, String languageParam) throws IOException {
 	
 		final String fullQuoteUrl = quoteUrl + "&format=" + format +"&lang=" + languageParam;
 		
@@ -56,7 +56,7 @@ public class Quotely {
 			response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			throw e;
+			Thread.currentThread().interrupt() ;
 		} catch (IOException e) {
 			e.printStackTrace();
 			//Add retries in production code if SocketTimeoutException
